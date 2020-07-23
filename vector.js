@@ -146,7 +146,7 @@ let angle = -90;
 let vectorAngle = 0;
 let radius = 150;
 
-const velocity = 1.25; // Degs per 16.6667ms
+const angleVelo = 1.25; // Degs per 16.6667ms
 
 function startRenderLoop () {
   console.log(angle);
@@ -158,8 +158,8 @@ function startRenderLoop () {
   drawCircle(currX, currY, 4, true);
   drawVector(currX, currY, 100, vectorAngle);
   drawVector(currX, currY, 100, vectorAngle + 90);
-  angle += velocity;
-  vectorAngle += velocity;
+  angle += angleVelo;
+  vectorAngle += angleVelo;
   requestAnimationFrame(startRenderLoop);
 }
 
