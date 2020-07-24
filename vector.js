@@ -2,9 +2,9 @@ const canvasWidth = window.innerWidth;
 const canvasHeight = window.innerHeight;
 
 const colors = {
-  objects: '#499f4e',
-  objectsLight: '#bce9bc',
-  bg: '#000'
+  path: '#499f4e',
+  vector: '#bce9bc',
+  background: '#000'
 };
 
 // Styles
@@ -14,7 +14,7 @@ style.innerHTML = `
     #drawVector { 
         width: ${canvasWidth}px; 
         height: ${canvasHeight}px;
-        background-color: ${colors.bg}; 
+        background-color: ${colors.background}; 
     }
 
     #overlay {
@@ -67,7 +67,7 @@ function drawVector (x, y, length, angle = 0) {
   ctx.rotate(rad);
 
   ctx.lineWidth = 2;
-  ctx.strokeStyle = colors.objectsLight;
+  ctx.strokeStyle = colors.vector;
   ctx.beginPath();
   ctx.moveTo(-(length / 2), 0);
   ctx.lineTo(length / 2, 0);
@@ -78,7 +78,7 @@ function drawVector (x, y, length, angle = 0) {
   const arrHeight = 18;
   const arrWidth = 14;
 
-  ctx.fillStyle = colors.objectsLight;
+  ctx.fillStyle = colors.vector;
   ctx.beginPath();
   ctx.moveTo(length / 2, 0);
   ctx.lineTo(length / 2 - arrHeight, -(arrWidth / 2));
@@ -94,11 +94,11 @@ function drawCircle (x, y, radius, fill = false) {
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2, false);
   if (fill) {
-    ctx.fillStyle = colors.objectsLight;
+    ctx.fillStyle = colors.vector;
     ctx.fill();
   } else {
     ctx.lineWidth = 2;
-    ctx.strokeStyle = colors.objects;
+    ctx.strokeStyle = colors.path;
     ctx.stroke();
   }
   ctx.closePath();
@@ -111,9 +111,16 @@ function drawCircle (x, y, radius, fill = false) {
 //   circlePos.applyMatrix(rotation);
 //   drawCircle(circlePos, 20);
 // }
+// const angleFirst = 50
+// drawVector(20, 20, 100, angleFirst);
+// const endX = 20 + 100 * Math.cos(angleFirst / 180 * Math.PI);
+// const endY = 20 + 100 * Math.sin(angleFirst / 180 * Math.PI);
+// drawVector(endX, endY, 100, 30);
+// drawVector(20, 20, 100, 20);
 
-// drawVector(0, 0, 100, 20);
-
+/**
+ * Grids
+ */
 // function drawGrid (x, y) {
 //   for (let i = 1; i <= 200; i += 20) {
 //     drawCircle(x, y, i);
@@ -139,6 +146,9 @@ function drawCircle (x, y, radius, fill = false) {
 //   drawVector(Math.random() * canvasWidth, Math.random() * canvasHeight, Math.random() * 500 , Math.random() * 360);
 // }
 
+/**
+ * Circular motion
+ */
 let centerX = canvasWidth / 2;
 let centerY = canvasHeight / 2;
 
@@ -146,10 +156,9 @@ let angle = -90;
 let vectorAngle = 0;
 let radius = 150;
 
-const angleVelo = 1.25; // Degs per 16.6667ms
+const angleVelocity = 1.25; // Degrees per 16.6667ms
 
 function startRenderLoop () {
-  console.log(angle);
   let angleRads = angle / 180 * Math.PI;
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   drawCircle(centerX, centerY, radius);
@@ -158,8 +167,8 @@ function startRenderLoop () {
   drawCircle(currX, currY, 4, true);
   drawVector(currX, currY, 100, vectorAngle);
   drawVector(currX, currY, 100, vectorAngle + 90);
-  angle += angleVelo;
-  vectorAngle += angleVelo;
+  angle += angleVelocity;
+  vectorAngle += angleVelocity;
   requestAnimationFrame(startRenderLoop);
 }
 
